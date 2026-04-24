@@ -7,6 +7,7 @@ let select=[];
 let primes=start;
 let nprimes=2;
 let ncomb=0;
+let score=0;
 function factor(n){
     let facts=[];
     let p=2;
@@ -31,6 +32,7 @@ function combine(){
 		}
 	});
 	ncomb++;
+	score=nprimes/ncomb;
 	select=[];
 }
 canvas.addEventListener("click",e=>{
@@ -75,6 +77,7 @@ function draw(){
 	ctx.fillText("Primes:       Combinations:",90,500);
 	ctx.fillText(nprimes,143,500);
 	ctx.fillText(ncomb,260,500);
+	ctx.fillText(score,328,500);
 	requestAnimationFrame(draw);
 }
 draw();
