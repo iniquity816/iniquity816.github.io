@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html><head><title>Primes</title></head><body><canvas id="game" width="600" height="520"></canvas><script>
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
+let start=[2,3];
+let select=[];
+let primes=start;
+let nprimes=2;
+let ncomb=0;
+function factor(n){
+    let facts=[];
+    let p=2;
+    while (n>1){
+        while (n%p==0){
+            facts.push(p);
+            n/=p;
+        }
+        p++;
+    }
+    return [...new Set(facts)];
+}
+function combine(){
+    if (select.length===0) return;
+	let product=select.reduce((a,b)=>a*b,1);
+	let result=product+1;
+	facts=factor(result);
+	facts.forEach(p=>{
+	    if(!primes.includes(p)){
+		    primes.push(p);
+			nprimes++;
+		}
+	});
+	ncomb++;
+	select=[];
+}
+canvas.addEventListener("click",e=>{
+    let x=e.offsetX;
+	let y=e.offsetY;
+	primes.forEach((p,i)=>{
+	    let px=20+(i%6)*70;
+		let py=50+Math.floor(i/6)*40;
+		if (x>=px&&x<=px+60&&y>=py&&y<=py+30){
+		    if(!select.includes(p)){
+			    select.push(p);
+			} else {
+			    var rm=select.indexOf(p);
+				select.splice(rm,1);
+			}
+	    }
+	});
+	if (x>=0&&x<=60&&y>=480&&y<=510){
+	   combine();
+	}
+});
+function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+	ctx.fillStyle="#000000";
+	ctx.fillRect(0,0,canvas.width,canvas.height);
+	ctx.fillStyle="#ffffff";
+	ctx.font="20px Helvetica";
+	ctx.fillText("Prime game", 20, 30);
+	ctx.font="14px Helvetica";
+	primes.forEach((p,i)=>{
+	    let x=20+(i%6)*70;
+		let y=50+Math.floor(i/6)*40;
+	    ctx.fillStyle=select.includes(p) ? "#7f7f7f" : "#ffffff";
+		ctx.fillRect(x,y,60,30);
+		ctx.fillStyle="#000000";
+		ctx.fillText(p,x+10,y+20);
+	});
+	ctx.fillStyle="#007f00";
+	ctx.fillRect(20,480,60,30);
+	ctx.fillStyle="#ffffff";
+	ctx.fillText("Combine",23,500);
+	ctx.fillText("Primes:       Combinations:",90,500);
+	ctx.fillText(nprimes,143,500);
+	ctx.fillText(ncomb,260,500);
+	requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body></html>
