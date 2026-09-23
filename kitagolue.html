@@ -14,10 +14,6 @@ const lp=Math.ceil(objs.length/npp);
 //ripped straight from apgacha 
 function drawobj(apg,size,startx,starty){
     ctx.fillStyle="white";
-	ctx.shadowColor="#bfbfbf";
-	ctx.shadowBlur=2;
-	ctx.shadowOffsetX=2;
-	ctx.shadowOffsetY=ctx.shadowOffsetX;
     if (apg[0] != "m" && apg[0] != "y"){
 	    let code = apg.split("_")[1];
 		let x=startx;
